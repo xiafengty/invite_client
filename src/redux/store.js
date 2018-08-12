@@ -1,4 +1,6 @@
-import {createStore}  from "react-router-dom";
+import {createStore,applyMiddleware}  from "redux";
 import reducer from "./reducers";
-const store=createStore(reducer);
+import thunk from "redux-thunk";
+import {composeWithDevTools} from 'redux-devtools-extension'
+const store=createStore(reducer,composeWithDevTools(applyMiddleware(thunk)));
 export default store;

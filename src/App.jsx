@@ -1,6 +1,6 @@
 import React,{Component} from "react";
-import {Button} from "antd-mobile";
-import {Route,Switch} from "react-router-dom";
+import {Route,Switch,BrowserRouter as Router} from "react-router-dom";
+/*import {connect} from "react-redux";*/
 import Main from "./containers/main/main";
 import Register from "./containers/register/register";
 import Login from "./containers/login/login";
@@ -8,15 +8,18 @@ class App extends Component{
     render(){
         return(
             <div>
-                <p>一生有你</p>
-                <Button type="primary">三生有幸</Button>
+                <Router>
                 <Switch>
                 <Route path="/register" component={Register} />
                 <Route path="/login" component={Login} />
                 <Route component={Main} />
                 </Switch>
+                </Router>
             </div>
         )
     }
 }
+/*export default connect({
+
+})(App);*/
 export default App;
