@@ -8,6 +8,7 @@ import {
     Button
 } from 'antd-mobile';
 import Logo from "../logo/logo";
+import {reqLogin} from "../../api";
 class Login extends Component{
     state={
         username:"",
@@ -17,6 +18,12 @@ class Login extends Component{
         this.setState({
             [type]:val
         })
+    };
+    inReqLogin=()=>{
+        reqLogin(this.state)
+            .then(res=>{
+                console.log(res.data);
+            })
     };
     render(){
         const {history}=this.props;
@@ -34,7 +41,7 @@ class Login extends Component{
                             <WhiteSpace/>
                         </List>
                         <WhiteSpace />
-                        <Button type="primary" onClick={()=>console.log(this.state)}>登录</Button>
+                        <Button type="primary" onClick={this.inReqLogin}>登录</Button>
                         <WhiteSpace />
                         <Button onClick={()=>history.replace("/register")}>注册账户</Button>
                     </WingBlank>

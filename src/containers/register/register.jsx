@@ -9,6 +9,8 @@ import {
     Button
 } from 'antd-mobile';
 import Logo from "../logo/logo";
+import {reqRegister} from "../../api";
+import "./regcss.less";
 class Register extends Component{
     state={
         username:"",
@@ -20,6 +22,15 @@ class Register extends Component{
         this.setState({
             [type]:val
         })
+    };
+    inRegister=()=>{
+        reqRegister(this.state)
+            .then((res)=>{
+            console.log(res.data);
+            })
+            .catch(err=>{
+                console.log(err);
+            })
     };
     render(){
         const {history} =this.props;
@@ -44,7 +55,7 @@ class Register extends Component{
                         <Radio checked={type==="daZen"} onChange={()=>this.handlerChange("type","daZen")}>大神</Radio>
                     </List.Item>
                     <WhiteSpace />
-                    <Button type="primary" onClick={()=>console.log(this.state)}>注册</Button>
+                    <Button type="primary" onClick={this.inRegister}>注册</Button>
                     <WhiteSpace />
                     <Button onClick={()=>history.replace("/login")}>已有账户</Button>
                 </WingBlank>
