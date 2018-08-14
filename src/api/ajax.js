@@ -8,6 +8,10 @@ export default  function ajax(url,data={},type="GET") {
             return;
         }
     }
+    if(data.username===data.password){
+        console.log("用户名和密码不能相同！");
+        return;
+    }
     if(!usernameReg.test(data.username)){
         console.log("您输入的用户名不符合格式！");
         return;
