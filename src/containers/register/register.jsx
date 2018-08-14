@@ -35,8 +35,6 @@ class Register extends Component{
                 console.log(err);
             });*/
         this.props.register(this.state);
-        const {msg,redirectTo}=this.props;
-        console.log(this.props);
     };
     render(){
         const {history} =this.props;

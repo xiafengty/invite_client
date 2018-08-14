@@ -1,6 +1,5 @@
 import React,{Component} from "react";
 import {Route,Switch,HashRouter as Router} from "react-router-dom";
-/*import {connect} from "react-redux";*/
 import Main from "./containers/main/main";
 import Register from "./containers/register/register";
 import Login from "./containers/login/login";
@@ -19,7 +18,4 @@ class App extends Component{
         )
     }
 }
-/*export default connect({
-
-})(App);*/
 export default App;
