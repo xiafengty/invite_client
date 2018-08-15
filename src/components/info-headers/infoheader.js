@@ -1,13 +1,17 @@
 import React,{Component} from "react";
 import {List, Grid} from "antd-mobile";
+import PropTypes from 'prop-types'
 class InfoHeader extends Component{
+    static propTypes = {
+        setHeader: PropTypes.func
+    };
     state={
         icon:null,
-        text:null
     };
-    /*setHeader=()=>{
-        this.setState({icon:});
-    };*/
+    setHeader=({icon,text})=>{
+        this.setState({icon});
+        this.props.getHeader(text);
+    };
     constructor(props){
         super(props);
         this.headerList=[];
@@ -25,6 +29,7 @@ class InfoHeader extends Component{
                 <List renderHeader={() => head}>
                     <Grid data={this.headerList}
                           columnNum={5}
+                          onClick={this.setHeader}
                     />
                 </List>
             </div>

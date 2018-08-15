@@ -12,7 +12,6 @@ import {
     Button
 } from 'antd-mobile';
 import Logo from "../logo/logo";
-/*import {reqRegister} from "../../api";*/
 import "./regcss.less";
 class Register extends Component{
     state={
@@ -27,13 +26,6 @@ class Register extends Component{
         })
     };
     inRegister=()=>{
-       /* reqRegister(this.state)
-            .then((res)=>{
-            console.log(res.data);
-            })
-            .catch(err=>{
-                console.log(err);
-            });*/
         this.props.register(this.state);
     };
     render(){
@@ -73,8 +65,6 @@ class Register extends Component{
         )
     }
 }
-/*
-export default Register;*/
 export default connect(
     state=>({users:state.users}),
     {register}
