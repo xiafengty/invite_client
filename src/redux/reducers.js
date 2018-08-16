@@ -1,5 +1,5 @@
 import {combineReducers} from "redux";
-import {SUCCESS_MSG,ERROR_MSG,RECEIVE_USER,RESET_USER} from "./action-types";
+import {SUCCESS_MSG,ERROR_MSG,RECEIVE_USER,RESET_USER,GET_LIST} from "./action-types";
 import getRedirctPath from  "../utils/getredirctpath";
  let initState={
      username:"",
@@ -23,6 +23,16 @@ function users(preState=initState,action) {
             return preState;
     }
 }
+let initList=[];
+function userList(preState=initList,action) {
+    switch (action.type){
+        case GET_LIST:
+            return action.data;
+        default:
+            return preState;
+    }
+}
 export default combineReducers({
-    users
+    users,
+    userList
 });

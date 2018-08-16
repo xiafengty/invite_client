@@ -28,7 +28,6 @@ class BossInfo extends Component{
     };
     render(){
         const {header}=this.props.users;
-        console.log(this.props.users);
         if(header){
             return <Redirect to="/boss" />
         }

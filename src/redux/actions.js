@@ -1,14 +1,18 @@
-import {SUCCESS_MSG,ERROR_MSG,RECEIVE_USER,RESET_USER} from "./action-types";
+import io from 'socket.io-client';
+import {SUCCESS_MSG,ERROR_MSG,RECEIVE_USER,RESET_USER,GET_LIST} from "./action-types";
 import {
     reqRegister,
     reqLogin,
     reqUpdate,
-    reqUser
+    reqUser,
+    reqUserList
 } from "../api";
-export const successMsg=(user)=>({type:SUCCESS_MSG,data:user});
-export const errorMsg=(msg)=>({type:ERROR_MSG,data:msg});
-export const receiveUser=(user)=>({type:RECEIVE_USER,data:user});
+const successMsg=(user)=>({type:SUCCESS_MSG,data:user});
+const errorMsg=(msg)=>({type:ERROR_MSG,data:msg});
+const receiveUser=(user)=>({type:RECEIVE_USER,data:user});
 export const resetUser=(msg)=>({type:RESET_USER,data:msg});
+const getList=(userlist)=>({type:GET_LIST,data:userlist});
+
 const usernameReg =  /^(?=.*[0-9]).{8,15}|(?=.*[a-z]).{8,15}|(?=.*[0-9])(?=.*[a-z]).{8,15}$/;    //只能包含英文、数字和下划线，长度为5-12位。
 const passwordReg = /^(?=.*[0-9])(?=.*[a-z]).{8,20}$/;    //只能包含英文、数字和下划线，长度为6-18位。
 
@@ -49,15 +53,12 @@ export  function login({username,password}) {
     return async dispatch=>{
        const res=await reqLogin({username,password});
         const result=res.data;
-        console.log(result);
         if(result.code===0){
             const user=result.data;
             dispatch(successMsg(user));
-            console.log(user+"1");
         }else{
             const msg=result.msg;
             dispatch(errorMsg(msg));
-            console.log(msg);
         }
 
     }
@@ -73,18 +74,38 @@ export function updateUser (user) {
         }else{
             const msg=result.msg;
             dispatch(resetUser(msg));
-            console.log(user);
         }
     }
 }
 export function autoLogin() {
     return async dispatch=>{
-        const res=await reqUser;
+        const res=await reqUser();
         const result=res.data;/*{code,data}*/
         if(result.code===0){
             dispatch(receiveUser(result.data));
         }else{
             dispatch(resetUser(result.msg));
         }
+    }
+}
+
+export function getUserList(type) {
+    return async dispatch=> {
+        const res = await reqUserList({type});
+        const result = res.data;
+        if (result.code === 0) {
+            dispatch(getList(result.data));
+        }
+    }
+}
+
+const socket=io("ws://localhost:5000");
+socket.on("recieveMsg",(chatMsg)=>{
+    console.log("浏览器接收到服务器发送的消息",chatMsg);
+});
+export function sendMsg({content,from,to}) {
+    return dispatch=>{
+        socket.emit("sendMsg",{content,from,to});
+        console.log("浏览器向服务器发送请求",{content,from,to});
     }
 }

@@ -1,9 +1,20 @@
 import React,{Component} from "react";
+import {connect} from "react-redux";
+import {getUserList} from "../../redux/actions";
+import UserList from "../../components/user-list/userlist";
 class DaZen extends Component{
+    componentDidMount(){
+        this.props.getUserList("boss");
+    }
     render(){
         return(
-            <div>Boss</div>
+            <div>
+                <UserList  userList={this.props.userList}/>
+            </div>
         )
     }
 }
-export default DaZen;
+export default connect(
+    state=>({userList:state.userList}),
+    {getUserList}
+)(DaZen);

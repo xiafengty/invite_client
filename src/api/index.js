@@ -4,3 +4,6 @@ export const reqRegister=({username,password,surePassword,type})=>ajax(BASE+"/re
 export const reqLogin=({username,password})=>ajax(BASE+"/login",{username,password},"POST");
 export const reqUpdate=user=>ajax(BASE+"/update",user,"POST");
 export const reqUser=()=>ajax(BASE+"/user");
+export const reqUserList=(type)=>{
+ return ajax(BASE+"/userlist",type)
+};
