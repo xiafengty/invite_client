@@ -26,7 +26,7 @@ class Login extends Component{
     };
     render(){
         const {history}=this.props;
-        const {msg,redirectTo}=this.props.users;
+        const {msg,redirectTo}=this.props.user;
         if(redirectTo){
             return <Redirect to={redirectTo}/>
         }
@@ -45,7 +45,7 @@ class Login extends Component{
                             <WhiteSpace/>
                         </List>
                         <WhiteSpace />
-                        <Button type="primary" onClick={this.inReqLogin}>登录</Button>
+                        <Button style={{background:"#202020",color:"white"}} onClick={this.inReqLogin}>登录</Button>
                         <WhiteSpace />
                         <Button onClick={()=>history.replace("/register")}>注册账户</Button>
                     </WingBlank>
@@ -55,6 +55,6 @@ class Login extends Component{
     }
 }
 export default connect(
-    state=>({users:state.users}),
+    state=>({user:state.user}),
     {login}
 )(Login);

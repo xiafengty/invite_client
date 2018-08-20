@@ -46,6 +46,7 @@ module.exports = function override(config, env) {
                         modifyVars: {
                             "@brand-primary": "#1cae82", // 正常
                             "@brand-primary-tap": "black", // 按下
+                            "@brand-zhuce": "blue", // 正常
                         },
                     },
                 },

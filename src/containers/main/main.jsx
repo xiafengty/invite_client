@@ -12,14 +12,15 @@ import DaZen from "../dazen/dazen";
 import Message from  "../message/message";
 import Personal from "../personal/personal";
 import NavFoot from "../../components/navfoot/navfoot";
+import Chat from "../chat/chat";
 
 import {autoLogin} from "../../redux/actions";
 import getRedirctPath from "../../utils/getredirctpath";
 class Main extends Component{
     componentDidMount(){
         const userid=Cookies.get("userid");
-        const {users}=this.props;
-        if(userid&&users){
+        const {user}=this.props;
+        if(userid&&!user._id){
             this.props.autoLogin();
         }
     }
@@ -58,8 +59,8 @@ class Main extends Component{
         if(!userid){
             return <Redirect to="login" />
         }
-        const user=this.props.users;
-        if(!user){
+        const user=this.props.user;
+        if(!user._id){
             return <div>loading</div>
         }
         const path=this.props.location.pathname;
@@ -80,9 +81,10 @@ class Main extends Component{
             }
             this.navList[0].hide=true;
         }
+        console.log(this.props.unReadCount);
         const currentList=this.navList.find((item,index)=>item.path===path);
         return(
-            <div>
+            <div id="main">
                 {
                     currentList?<NavBar>{currentList.title}</NavBar>:null
                 }
@@ -93,14 +95,16 @@ class Main extends Component{
                     <Route path="/dazen"  component={DaZen}/>
                     <Route path='/message' component={Message}/>
                     <Route path='/personal' component={Personal}/>
+                    <Route path='/personal' component={Personal}/>
+                    <Route path='/chat/:userid' component={Chat}/>
                 </Switch>
-                {currentList?<NavFoot navList={this.navList} />:null}
+                {currentList?<NavFoot navList={this.navList} unReadCount={this.props.unReadCount} />:null}
             </div>
 
         )
     }
 }
 export default connect(
-    state=>({users:state.users}),
+    state=>({user:state.user,unReadCount: state.chat.unReadCount}),
     {autoLogin}
 )(Main)

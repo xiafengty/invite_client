@@ -1,5 +1,8 @@
 import {combineReducers} from "redux";
-import {SUCCESS_MSG,ERROR_MSG,RECEIVE_USER,RESET_USER,GET_LIST} from "./action-types";
+import {
+    SUCCESS_MSG, ERROR_MSG, RECEIVE_USER, RESET_USER, GET_LIST, GET_USER_MSGS, GET_USER_MSG,
+    MSG_READ
+} from "./action-types";
 import getRedirctPath from  "../utils/getredirctpath";
  let initState={
      username:"",
@@ -7,7 +10,7 @@ import getRedirctPath from  "../utils/getredirctpath";
     msg:"",
     redirectTo:""
 };
-function users(preState=initState,action) {
+function user(preState=initState,action) {
     switch (action.type){
         case SUCCESS_MSG:
             const user=action.data;
@@ -32,7 +35,47 @@ function userList(preState=initList,action) {
             return preState;
     }
 }
+let initChat={
+    users:{},
+    userMsgs:[],
+    unReadCount:0
+};
+function chat(preState=initChat,action) {
+    switch (action.type){
+        case GET_USER_MSGS:
+            var {users,userMsgs,meId}=action.data;
+            return {
+                users,
+                userMsgs,
+                unReadCount:userMsgs.reduce((prev,msg)=>prev+(!msg.read && msg.to===meId?1:0),0)
+            };
+        case GET_USER_MSG:
+            var {userMsg,meId}=action.data;
+            return {
+                users:preState.users,
+                userMsgs:[...preState.userMsgs,userMsg],
+                unReadCount:preState.unReadCount+(!userMsg.read && userMsg.to===meId?1:0)
+            };
+            console.log(preState.unReadCount,preState,222);
+        case MSG_READ:
+            var {count, targetId, meId} = action.data;
+            return {
+                users: preState.users,
+                userMsgs:preState.userMsgs.map(msg => {
+                    if(msg.from===targetId && msg.to===meId && !msg.read) {
+                        return {...msg, read: true}
+                    } else {
+                        return msg
+                    }
+                }),
+                unReadCount: preState.unReadCount - count,
+            };
+        default:
+            return preState;
+    }
+}
 export default combineReducers({
-    users,
-    userList
+    user,
+    userList,
+    chat
 });

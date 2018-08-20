@@ -7,3 +7,5 @@ export const reqUser=()=>ajax(BASE+"/user");
 export const reqUserList=(type)=>{
  return ajax(BASE+"/userlist",type)
 };
+export const reqMsgList=()=>ajax(BASE+"/msglist");
+export const reqReadMsg=(from)=>ajax(BASE+"/readmsg",{from},"POST");

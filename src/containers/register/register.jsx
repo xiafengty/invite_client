@@ -31,7 +31,7 @@ class Register extends Component{
     render(){
         const {history} =this.props;
         const {type}=this.state;
-        const {msg,redirectTo}=this.props.users;
+        const {msg,redirectTo}=this.props.user;
         if(redirectTo){
             return <Redirect to={redirectTo}/>
         }
@@ -66,6 +66,6 @@ class Register extends Component{
     }
 }
 export default connect(
-    state=>({users:state.users}),
+    state=>({user:state.user}),
     {register}
 )(Register)

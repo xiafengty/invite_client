@@ -1,19 +1,20 @@
 import React,{Component} from "react";
 import {connect} from "react-redux";
-import {NavBar, List, WingBlank, InputItem, TextareaItem, Button } from "antd-mobile";
+import {NavBar, List, WingBlank, InputItem, TextareaItem, Button ,Icon} from "antd-mobile";
 import InfoHeader from "../../components/info-headers/infoheader";
 import {updateUser} from "../../redux/actions";
-import {Redirect} from "react-router-dom";
 class DaZenInfo extends Component{
     state={
         header:"",
         info:"",
-        post:""
+        post:"",
+        salary:""
     };
     handlerChange=(type,val)=>{
         this.setState({
             [type]:val
-        })
+        });
+
     };
     getHeader=(header)=>{
         this.setState({
@@ -21,24 +22,32 @@ class DaZenInfo extends Component{
         })
     };
     save=()=>{
-        this.props.updateUser(this.state);
+        const {header,info,post}=this.state;
+        if(header&&info&&post){
+            this.props.updateUser(this.state);
+            alert("保存成功");
+            this.props.history.replace("/personal");
+        }else{
+            alert("信息不能为空！");
+        }
+
     };
     render(){
-        const {header} =this.props.users;
-        if(header){
-            return <Redirect to="dazen" />
-        }
         return(
             <div>
-                <NavBar>大神信息填写</NavBar>
+                <NavBar
+                    icon={<Icon type="left" />}
+                    onClick={()=>this.props.history.replace("/personal")}
+                >大神信息填写</NavBar>
                 <InfoHeader getHeader={this.getHeader}/>
                 <WingBlank>
                     <List>
                         <InputItem onChange={(val)=>this.handlerChange("info",val)}>求职岗位：</InputItem>
+                        <InputItem onChange={(val)=>this.handlerChange("salary",val)}>薪资要求：</InputItem>
                         <TextareaItem title="个人介绍：" rows={2}
                                       onChange={(val)=>this.handlerChange("post",val)}
                         />
-                        <Button type='primary' onClick={this.save}>保存</Button>
+                        <Button style={{background:"#202020",color:"white"}} onClick={this.save}>保存</Button>
                     </List>
                 </WingBlank>
             </div>
@@ -46,6 +55,6 @@ class DaZenInfo extends Component{
     }
 }
 export default connect(
-    state=>({users:state.users}),
+    state=>({user:state.user}),
     {updateUser}
 )(DaZenInfo)

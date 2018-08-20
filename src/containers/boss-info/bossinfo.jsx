@@ -27,10 +27,10 @@ class BossInfo extends Component{
         this.props.updateUser(this.state);
     };
     render(){
-        const {header}=this.props.users;
-        if(header){
+        const {header}=this.props.user;
+        /*if(header){
             return <Redirect to="/boss" />
-        }
+        }*/
         return(
             <div>
                 <NavBar>老板信息填写</NavBar>
@@ -43,7 +43,7 @@ class BossInfo extends Component{
                         <TextareaItem title="职位要求：" rows={2}
                                       onChange={(val)=>this.handleChange("info",val)}
                         />
-                        <Button type='primary' onClick={this.save}>保存</Button>
+                        <Button style={{background:"#202020",color:"white"}} onClick={this.save}>保存</Button>
                     </List>
                 </WingBlank>
             </div>
@@ -51,6 +51,6 @@ class BossInfo extends Component{
     }
 }
 export default connect(
-    state=>({users:state.users}),
+    state=>({user:state.user}),
     {updateUser}
 )(BossInfo)

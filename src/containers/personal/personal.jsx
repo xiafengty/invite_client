@@ -24,7 +24,8 @@ class Personal extends Component{
     };
 
     render(){
-        const {username, header, post, info, salary, company}=this.props.users;
+        const {username, header, post, info, salary, company}=this.props.user;
+        const type=this.props.user.type.toLowerCase();
         if(!username){
             return <div>登录超时，请重新登录！</div>
         }
@@ -37,20 +38,23 @@ class Personal extends Component{
                 />
                     <List renderHeader={() => '相关信息'}>
                         <Item multipleLine>
-                            <Brief>职位：{post}</Brief>
-                            <Brief>简介：{info}</Brief>
+                            <Brief>职位：{info}</Brief>
+                            <Brief>简介：{post}</Brief>
                             {salary?<Brief>薪资：{salary}</Brief>:null}
                         </Item>
                     </List>
                 <WhiteSpace/>
                 <List>
-                    <Button type='warning' onClick={this.handleLogout}>退出登录</Button>
+                    <WhiteSpace/>
+                    <Button style={{background:"#404040",color:"white"}} onClick={()=>this.props.history.replace("/"+type+"info")}>修改个人信息</Button>
+                    <WhiteSpace/><WhiteSpace/>
+                    <Button style={{background:"#202020",color:"white"}} type='warning' onClick={this.handleLogout}>退出登录</Button>
                 </List>
             </div>
         )
     }
 }
 export default connect(
-    state=>({users:state.users}),
+    state=>({user:state.user}),
     {resetUser}
 )(Personal)
